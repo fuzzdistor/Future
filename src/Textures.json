@@ -1,0 +1,56 @@
+{
+  "Room1":{
+    "Textures":[
+      {
+        "ID":"BlueGuy",
+        "file":"../media/BlueGuy.png"
+      },
+      {
+        "ID":"Enemy",
+        "file":"../media/Yellow.png"
+      },
+      {
+        "ID":"Background",
+        "file":"../media/BackgroundDark.png"
+      },
+      {
+        "ID":"Door",
+        "file":"../media/Yellow.png"
+      },
+      {
+        "ID":"Wall",
+        "file":"../media/Purple.png"
+      }
+    ]
+  },
+  "Title":{
+    "Textures":[
+      {
+        "ID":"TitleScreen",
+        "file":"../media/Background.png"
+      },
+      {
+        "ID":"GUIButtonNormal",
+        "file":"../media/Blue.png"
+      },
+      {
+        "ID":"GUIButtonSelected",
+        "file":"../media/Purple.png"
+      },
+      {
+        "ID":"GUIButtonPressed",
+        "file":"../media/Pink.png"
+      }
+    ],
+    "Fonts":[
+      {
+        "ID": "Mono",
+        "file": "../media/Sansation.ttf"
+      },
+      {
+        "ID": "Main",
+        "file": "../media/GemunuLibre[wght].ttf"
+      }
+    ]
+  }
+}

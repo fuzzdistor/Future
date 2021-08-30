@@ -1,0 +1,9 @@
+{
+  "Nanotech": {
+    "speed": 200.0,
+    "texture": "BlueGuy"
+  },
+  "Nanobot": {
+    "speed": 80.0
+  }
+}
