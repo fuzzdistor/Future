@@ -15,7 +15,7 @@ void GUI::Container::pack(Component::Ptr component)
 	mChildren.push_back(component);
 
 	if (!hasSelection() && component->isSelectable())
-		select(static_cast<int>(mChildren.size() - 1));
+		selectIndex(static_cast<int>(mChildren.size() - 1));
 }
 
 bool GUI::Container::isSelectable() const
@@ -62,7 +62,7 @@ bool GUI::Container::hasSelection() const
 	return mSelectedChild >= 0;
 }
 
-void GUI::Container::select(int index)
+void GUI::Container::selectIndex(int index)
 {
 	if (mChildren[index]->isSelectable())
 	{
@@ -86,7 +86,7 @@ void GUI::Container::selectNext()
 	while (!mChildren[next]->isSelectable());
 
 	// Select that component
-	select(next);
+	selectIndex(next);
 }
 
 void GUI::Container::selectPrevious()
@@ -101,5 +101,5 @@ void GUI::Container::selectPrevious()
 	while (!mChildren[prev]->isSelectable());
 
 	// Select that component
-	select(static_cast<int>(prev));
+	selectIndex(static_cast<int>(prev));
 }

@@ -5,12 +5,11 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
-
 GUI::Button::Button(const FontHolder& fonts, const TextureHolder& textures)
-	: mNormalTexture(textures.get(Textures::ID::GUIButtonNormal))
+	: mCallback()
+	, mNormalTexture(textures.get(Textures::ID::GUIButtonNormal))
 	, mSelectedTexture(textures.get(Textures::ID::GUIButtonSelected))
 	, mPressedTexture(textures.get(Textures::ID::GUIButtonPressed))
-	, mCallback()
 	, mSprite()
 	, mText("", fonts.get(Fonts::ID::Main))
 	, mIsToggle(false)

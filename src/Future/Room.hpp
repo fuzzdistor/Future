@@ -32,17 +32,17 @@ public:
 	Room(sf::RenderWindow& window, FontHolder& fonts);
 
 public:
-	virtual void	update(sf::Time dt);
+	void			update(sf::Time dt);
 	void			draw();
 
 	CommandQueue& 	getCommandQueue();
 
 	bool            hasAlivePlayer() const;
 	bool 			hasFinishedLevel() const;
-	virtual bool    isWinConditionMet() const;
+	bool		    isWinConditionMet() const;
 	
 private:
-	virtual void    loadTextures();
+	void		    loadTextures();
 	void            adaptPlayerPosition();
 	void            adaptPlayerVelocity();
 	void            handleCollisions();
@@ -63,10 +63,10 @@ private:
 
 	struct SpawnPoint
 	{
-		SpawnPoint(Actor::Type type, float x, float y)
-			: type(type)
-			, x(x)
-			, y(y)
+		SpawnPoint(Actor::Type pType, float pX, float pY)
+			: type(pType)
+			, x(pX)
+			, y(pY)
 		{
 		}
 
@@ -82,6 +82,7 @@ private:
 	FontHolder&                         mFonts;
 
 	SceneNode                           mSceneGraph;
+	std::map<Layer, SceneNode*>			mSceneLayers;
 	CommandQueue 						mCommandQueue;
 
 	sf::FloatRect                       mWorldBounds;
@@ -93,7 +94,6 @@ private:
 
 	bool 								mWinFlag;
 
-	std::map<Layer, SceneNode*>			mSceneLayers;
 	std::vector<SpawnPoint>             mEnemySpawnPoints;
 	std::vector<Actor*>                 mActiveEnemies;
 };

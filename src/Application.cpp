@@ -1,4 +1,5 @@
 #include "Future/Application.hpp"
+#include "Future/json.hpp"
 #include "states/TitleState.hpp"
 #include "states/MenuState.hpp"
 #include "states/GameState.hpp"
@@ -10,12 +11,15 @@
 #include <cassert>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 
 #ifndef NDEBUG
 #define WIN_TITLE "!!!DEBUG!!! Future Game"
 #else
 #define WIN_TITLE "Future Game"
 #endif
+
+using json = nlohmann::json;
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
 
@@ -45,24 +49,26 @@ Application::Application()
 
 void Application::loadInitialResources()
 {
-	std::ifstream i("../src/Textures.json");
-	nlohmann::json data;
+	// get the data from the file to the data object. throw if file couldn't be opened.
+	std::string jsonPath = "../src/Resources.json";
+	std::ifstream i(jsonPath);
+	if (i.fail())
+		throw std::runtime_error("Could not open " + jsonPath);
+	json data;
 	i >> data;
+	i.close();
 
 	// load textures
-	for (auto elem: data["Title"]["Textures"])
-		mTextures.load(elem["ID"].get<Textures::ID>(), elem["file"].get<std::string>());
+	loadResource<Textures::ID>(mTextures, data["Title"]["Textures"]);
 
 	// load fonts
-	for (auto elem: data["Title"]["Fonts"])
-		mFonts.load(elem["ID"].get<Fonts::ID>(), elem["file"].get<std::string>());
+	loadResource<Fonts::ID>(mFonts, data["Title"]["Fonts"]);
 }
 
 void Application::run()
 {
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	bool p_open = false;
 
 	while (mWindow.isOpen())
 	{

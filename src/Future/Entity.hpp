@@ -29,8 +29,8 @@ protected:
 	virtual void 	updateCurrent(sf::Time dt, CommandQueue& commands) override;
 
 private:
-	bool 			mDestroyFlag;
 	sf::Vector2f    mVelocity;
+	bool 			mDestroyFlag;
 };
 
 #endif // ENTITY_HPP

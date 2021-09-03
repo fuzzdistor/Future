@@ -15,9 +15,9 @@
 
 struct Direction
 {
-	Direction(float angle, float distance)
-		: angle(angle)
-		, distance(distance)
+	Direction(float angle_, float distance_)
+		: angle(angle_)
+		, distance(distance_)
 	{
 	}
 

@@ -2,11 +2,11 @@
 #include "states/State.hpp"
 
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, Player& player)
-: window(&window)
-, textures(&textures)
-, fonts(&fonts)
-, player(&player)
+State::Context::Context(sf::RenderWindow& window_, TextureHolder& textures_, FontHolder& fonts_, Player& player_)
+: window(&window_)
+, textures(&textures_)
+, fonts(&fonts_)
+, player(&player_)
 {
 }
 

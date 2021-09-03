@@ -13,6 +13,7 @@
 #include <set>
 #include <memory>
 #include <utility>
+#include <optional>
 
 struct Command;
 class CommandQueue;
@@ -58,10 +59,10 @@ private:
 	virtual sf::Color		getBoundingRectColor() const;
 
 private:
-	std::vector<Ptr>        mChildren;
-	SceneNode*              mParent;
-	Category::Type          mDefaultCategory;
-	bool 					mDebugFlag;
+	std::optional<SceneNode*>   mParent;
+	std::vector<Ptr>        	mChildren;
+	Category::Type          	mDefaultCategory;
+	bool 						mDebugFlag;
 };
 
 bool	collision(const SceneNode& lhs, const SceneNode& rhs);

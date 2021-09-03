@@ -53,8 +53,9 @@ bool SettingsState::handleEvent(const sf::Event& event)
 {
 	bool isKeyBinding = false;
 	
+	
 	// Iterate through all key binding buttons to see if they are being pressed, waiting for the user to enter a key
-	for (std::size_t action = 0; action < (int)Player::ActionID::ActionCount; ++action)
+	for (std::size_t action = 0; action < getContext().player->getActionsSize(); ++action)
 	{
 		if (mBindingButtons[action]->isActive())
 		{

@@ -93,8 +93,8 @@ void StateStack::applyPendingChanges()
 	mPendingList.clear();
 }
 
-StateStack::PendingChange::PendingChange(Action action, States::ID stateID)
-: action(action)
-, stateID(stateID)
+StateStack::PendingChange::PendingChange(Action action_, States::ID stateID_)
+: action(action_)
+, stateID(stateID_)
 {
 }

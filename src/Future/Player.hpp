@@ -44,6 +44,7 @@ public:
 
 	void                setMissionStatus(MissionStatus status);
 	MissionStatus       getMissionStatus() const;
+	size_t				getActionsSize() const;
 
 private:
 	void                initActions();
@@ -51,9 +52,9 @@ private:
 	static bool         isRealTimeAction(ActionID action);
 
 private:
-	std::map<sf::Keyboard::Key, ActionID>     mKeyBinding;
-	std::map<ActionID, Command>               mActionBinding;
 	MissionStatus 							mCurrentMissionStatus;
+	std::map<sf::Keyboard::Key, ActionID>   mKeyBinding;
+	std::map<ActionID, Command>             mActionBinding;
 };
 
 #endif // PLAYER_HPP

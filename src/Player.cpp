@@ -18,6 +18,11 @@ struct ActorMover
 	sf::Vector2f velocity;
 };
 
+size_t Player::getActionsSize() const
+{
+	return mActionBinding.size();
+}
+
 Player::Player()
 	: mCurrentMissionStatus(MissionStatus::MissionRunning)
 	, mKeyBinding()

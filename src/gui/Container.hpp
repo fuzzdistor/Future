@@ -32,7 +32,7 @@ private:
 	virtual void    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	bool    hasSelection() const;
-	void    select(int index);
+	void    selectIndex(int index);
 	void    selectNext();
 	void    selectPrevious();
 

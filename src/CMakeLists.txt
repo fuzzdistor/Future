@@ -1,6 +1,6 @@
 set(FUTURE_HPP_DIR ${CMAKE_SOURCE_DIR}/src)
 
-add_executable(${PROJECT_NAME}
+set(SOURCES
     Actor.cpp
     Application.cpp
     Command.cpp
@@ -27,6 +27,64 @@ add_executable(${PROJECT_NAME}
     states/State.cpp
     states/StateStack.cpp
     states/TitleState.cpp
+)
+
+set(HEADERS
+    Future/Actor.hpp
+    Future/Application.hpp
+    Future/Category.hpp
+    Future/Command.hpp
+    Future/CommandQueue.hpp
+    Future/DataTables.hpp
+    Future/Entity.hpp
+    Future/Player.hpp
+    Future/ResourceHolder.hpp
+    Future/ResourceIdentifiers.hpp
+    Future/Room.hpp
+    Future/SceneNode.hpp
+    Future/SpriteNode.hpp
+    Future/TextNode.hpp
+    Future/TriggerNode.hpp
+    Future/Utils.hpp
+    Future/json.hpp
+    gui/Button.hpp
+    gui/Component.hpp
+    gui/Container.hpp
+    gui/Label.hpp
+    states/GameOverState.hpp
+    states/GameState.hpp
+    states/MenuState.hpp
+    states/PauseState.hpp
+    states/SettingsState.hpp
+    states/State.hpp
+    states/StateIdentifiers.hpp
+    states/StateStack.hpp
+    states/TitleState.hpp
+)
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+target_compile_options(${PROJECT_NAME} PRIVATE 
+    -Wall 
+    -Wextra 
+    -Wshadow 
+    -Wnon-virtual-dtor 
+    -pedantic
+    -Wold-style-cast
+    -Wcast-align
+    -Wunused
+    -Woverloaded-virtual
+    -Wpedantic
+    -Wconversion
+    -Wsign-conversion
+    -Wmisleading-indentation
+    -Wduplicated-cond
+    -Wduplicated-branches
+    -Wlogical-op
+    -Wnull-dereference
+    -Wuseless-cast
+    -Wdouble-promotion
+    -Wformat=2
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${FUTURE_HPP_DIR})

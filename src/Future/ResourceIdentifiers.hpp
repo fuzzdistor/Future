@@ -27,9 +27,11 @@ namespace Textures
 		GUIButtonNormal,
 		GUIButtonSelected,
 		GUIButtonPressed,
+		INVALID,
 	};
 
 	NLOHMANN_JSON_SERIALIZE_ENUM(Textures::ID, {
+		{Textures::ID::INVALID, nullptr},
 		{Textures::ID::BlueGuy, "BlueGuy"},
 		{Textures::ID::RedGuy, "BlueGuy"},
 		{Textures::ID::Enemy, "Enemy"},
@@ -50,9 +52,11 @@ namespace Fonts
 	{
 		Main,
 		Mono,
+		INVALID,
 	};
 
 	NLOHMANN_JSON_SERIALIZE_ENUM(Fonts::ID, {
+		{Fonts::ID::INVALID, nullptr},
 		{Fonts::ID::Main, "Main"},
 		{Fonts::ID::Mono, "Mono"},
 	})

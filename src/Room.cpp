@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/System/Time.hpp>
 
+#include <utility>
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -17,17 +18,20 @@
 Room::Room(sf::RenderWindow& window, FontHolder& fonts)
 	: mWindow(window)
 	, mWorldView(window.getDefaultView())
-	, mFonts(fonts)
 	, mTextures() 
+	, mFonts(fonts)
 	, mSceneGraph()
 	, mSceneLayers()
+	, mCommandQueue()
 	, mWorldBounds(0.f, 0.f, 2000, 2000.f)
 	, mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y / 2.f)
 	, mScrollSpeed(0.f)
+	, mFinishLine(nullptr)
 	, mPlayerCharacter(nullptr)
+	, mArrow(nullptr)
+	, mWinFlag(false)
 	, mEnemySpawnPoints()
 	, mActiveEnemies()
-	, mWinFlag(false)
 {
 	loadTextures();
 	buildScene();
@@ -96,7 +100,7 @@ bool Room::isWinConditionMet() const
 
 void Room::loadTextures()
 {
-	std::ifstream i("../src/Textures.json");
+	std::ifstream i("../src/Resources.json");
 	nlohmann::json textureData;
 	i >> textureData;
 
@@ -230,6 +234,8 @@ void Room::buildScene()
 	auto trigger = std::make_unique<TriggerNode>(derivedAction<SceneNode>(tAction));
 	trigger->setPosition(mSpawnPosition + sf::Vector2f(300.f, 0.f));
 	mSceneLayers[Layer::Playfield]->attachChild(std::move(trigger));
+
+    mFinishLine = std::exchange(mPlayerCharacter, mFinishLine);
 }
 
 void Room::addEnemies()

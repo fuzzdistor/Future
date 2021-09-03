@@ -9,9 +9,22 @@
 
 #include <cassert>
 
+#ifdef __GNUC__
+#  define UNUSED(x) UNUSED_ ## x __attribute__((__unused__))
+#else
+#  define UNUSED(x) UNUSED_ ## x
+#endif
+
+#ifdef __GNUC__
+#  define UNUSED_FUNCTION(x) __attribute__((__unused__)) UNUSED_ ## x
+#else
+#  define UNUSED_FUNCTION(x) UNUSED_ ## x
+#endif
+
+
 
 SceneNode::SceneNode(Category::Type category)
-	: mParent(nullptr)
+	: mParent(std::nullopt)
 	, mChildren()
 	, mDefaultCategory(category)
 	, mDebugFlag(false)
@@ -61,7 +74,7 @@ void SceneNode::update(sf::Time dt, CommandQueue& commands)
 	updateChildren(dt, commands);
 }
 
-void SceneNode::updateCurrent(sf::Time dt, CommandQueue& commands)
+void SceneNode::updateCurrent(sf::Time UNUSED(dt), CommandQueue& UNUSED(commands))
 {
 }
 
@@ -112,7 +125,7 @@ void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates stat
 	shape.setOutlineColor(getBoundingRectColor());
 	shape.setOutlineThickness(1.f);
 
-	target.draw(shape);
+	target.draw(shape, states);
 }
 
 void SceneNode::toggleDebugFlag()
@@ -139,8 +152,7 @@ sf::Transform SceneNode::getWorldTransform() const
 {
 	sf::Transform transform = sf::Transform::Identity;
 
-	for (const SceneNode* node = this; node != nullptr
-		; node = node->mParent)
+	for (auto node = this; node != nullptr; node = node->mParent.value_or(nullptr))
 		transform *= node->getTransform();
 
 	return transform;
@@ -155,7 +167,7 @@ void SceneNode::onCommand(const Command& command, sf::Time dt)
 
 	// Command children
 	for(auto& child: mChildren)
-		child->onCommand(command, dt);	
+		child->onCommand(command, dt);
 }
 
 Category::Type SceneNode::getCategory() const
