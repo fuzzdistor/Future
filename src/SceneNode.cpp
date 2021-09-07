@@ -9,19 +9,6 @@
 
 #include <cassert>
 
-#ifdef __GNUC__
-#  define UNUSED(x) UNUSED_ ## x __attribute__((__unused__))
-#else
-#  define UNUSED(x) UNUSED_ ## x
-#endif
-
-#ifdef __GNUC__
-#  define UNUSED_FUNCTION(x) __attribute__((__unused__)) UNUSED_ ## x
-#else
-#  define UNUSED_FUNCTION(x) UNUSED_ ## x
-#endif
-
-
 
 SceneNode::SceneNode(Category::Type category)
 	: mParent(std::nullopt)
@@ -74,7 +61,7 @@ void SceneNode::update(sf::Time dt, CommandQueue& commands)
 	updateChildren(dt, commands);
 }
 
-void SceneNode::updateCurrent(sf::Time UNUSED(dt), CommandQueue& UNUSED(commands))
+void SceneNode::updateCurrent(sf::Time, CommandQueue&)
 {
 }
 
@@ -97,8 +84,7 @@ void SceneNode::draw(sf::RenderTarget& target
 }
 
 // Does nothing by default
-void SceneNode::drawCurrent(sf::RenderTarget& target
-	, sf::RenderStates states) const
+void SceneNode::drawCurrent(sf::RenderTarget&, sf::RenderStates) const
 {
 	// do nothing
 }
