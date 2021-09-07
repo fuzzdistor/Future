@@ -65,6 +65,7 @@ set(HEADERS
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
 target_compile_options(${PROJECT_NAME} PRIVATE 
+    -fsanitize=address
     -Wall 
     -Wextra 
     -Wshadow 
@@ -90,7 +91,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 target_include_directories(${PROJECT_NAME} PRIVATE ${FUTURE_HPP_DIR})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_link_libraries(${PROJECT_NAME} PRIVATE
+    target_link_libraries(${PROJECT_NAME} PRIVATE 
         sfml-graphics
         sfml-window
         sfml-system
@@ -102,4 +103,9 @@ else(CMAKE_BUILD_TYPE STREQUAL "Debug")
         sfml-window-d
         sfml-system-d
     )
+
+target_link_options(${PROJECT_NAME} PRIVATE
+    -fsanitize=address
+)
+
 endif()
