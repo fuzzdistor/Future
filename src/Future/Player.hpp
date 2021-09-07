@@ -18,10 +18,10 @@ public:
 		MoveRight,
 		MoveUp,
 		MoveDown,
-		Fire,
-		LaunchMissile,
+		//Fire,
+		//LaunchMissile,
 		ToggleDebugMode,
-		Connect,
+		//Connect,
 		ActionCount
 	};
 
@@ -45,7 +45,7 @@ public:
 	void                setMissionStatus(MissionStatus status);
 	MissionStatus       getMissionStatus() const;
 	size_t				getActionsSize() const;
-
+    std::vector<ActionID>& getRegisteredActions();
 private:
 	void                initActions();
 	void                initAction(sf::Keyboard::Key key, ActionID actionID, Command::Action action, Category::Type category = Category::Type::PlayerActor);
@@ -53,8 +53,10 @@ private:
 
 private:
 	MissionStatus 							mCurrentMissionStatus;
+    std::vector<ActionID>                   mRegisteredActions;
 	std::map<sf::Keyboard::Key, ActionID>   mKeyBinding;
 	std::map<ActionID, Command>             mActionBinding;
 };
 
 #endif // PLAYER_HPP
+

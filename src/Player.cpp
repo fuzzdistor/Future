@@ -25,6 +25,7 @@ size_t Player::getActionsSize() const
 
 Player::Player()
 	: mCurrentMissionStatus(MissionStatus::MissionRunning)
+    , mRegisteredActions()
 	, mKeyBinding()
 	, mActionBinding()
 {
@@ -92,8 +93,13 @@ void Player::initActions()
 	initAction(sf::Keyboard::Q, 		ActionID::ToggleDebugMode, 	derivedAction<SceneNode>([] (SceneNode& s, sf::Time dt){ s.toggleDebugFlag(); }), Category::Type::All);
 }
 
+std::vector<Player::ActionID>& Player::getRegisteredActions()
+{
+    return mRegisteredActions;
+}
 void Player::initAction(sf::Keyboard::Key key, ActionID actionID, Command::Action action, Category::Type category)
 {
+    mRegisteredActions.push_back(actionID);
 	mKeyBinding[key] = actionID;
 	mActionBinding[actionID].action  = action;
 	mActionBinding[actionID].category  = category;
@@ -108,7 +114,7 @@ bool Player::isRealTimeAction(ActionID action)
 		case ActionID::MoveRight:
 		case ActionID::MoveDown:
 		case ActionID::MoveUp:
-		case ActionID::Fire:
+		//case ActionID::Fire:
 			return true;
 
 		default:
