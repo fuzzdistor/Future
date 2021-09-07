@@ -13,6 +13,7 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 : State(stack, context)
 , mGameOverText()
 , mElapsedTime(sf::Time::Zero)
+, mDarkBackground()
 {
 	sf::Font& font = context.fonts->get(Fonts::ID::Main);
 	sf::Vector2f windowSize(context.window->getSize());
@@ -26,6 +27,8 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 	mGameOverText.setCharacterSize(70);
 	util::centerOrigin(mGameOverText);
 	mGameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+
+	mDarkBackground.setFillColor(sf::Color(0, 0, 0, 150));
 }
 
 void GameOverState::draw()
@@ -33,12 +36,9 @@ void GameOverState::draw()
 	sf::RenderWindow& window = *getContext().window;
 	window.setView(window.getDefaultView());
 
-	// Create dark, semitransparent background
-	sf::RectangleShape backgroundShape;
-	backgroundShape.setFillColor(sf::Color(0, 0, 0, 150));
-	backgroundShape.setSize(window.getView().getSize());
+	mDarkBackground.setSize(window.getView().getSize());
 
-	window.draw(backgroundShape);
+	window.draw(mDarkBackground);
 	window.draw(mGameOverText);
 }
 
