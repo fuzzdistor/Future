@@ -16,6 +16,7 @@ namespace Textures
 {
 	enum class ID
 	{
+        House,
 		BlueGuy,
 		RedGuy,
 		Enemy,
@@ -32,6 +33,7 @@ namespace Textures
 
 	NLOHMANN_JSON_SERIALIZE_ENUM(Textures::ID, {
 		{Textures::ID::INVALID, nullptr},
+		{Textures::ID::House, "House"},
 		{Textures::ID::BlueGuy, "BlueGuy"},
 		{Textures::ID::RedGuy, "BlueGuy"},
 		{Textures::ID::Enemy, "Enemy"},
