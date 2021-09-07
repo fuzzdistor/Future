@@ -7,6 +7,10 @@
 #include "states/SettingsState.hpp"
 #include "states/GameOverState.hpp"
 
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
+
 #include <string>
 #include <cassert>
 #include <fstream>
@@ -22,6 +26,21 @@
 using json = nlohmann::json;
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);
+const std::vector<sf::Vector2u> Resolutions = {{2840, 2160}, {2560, 1440}, {1920, 1080}, {1280, 720}, {854, 480}, {640, 360}, {426, 240}};
+
+// TODO fix implementation. Desired result: retrun the appropiate resolution
+// that is immediately smaller than the current one.
+// Ex:  Current window size: 1300x900 -> return 1280x720
+//                           900x500 -> return 854x480
+sf::Vector2u getAppropiateResolution(const sf::Vector2u &size)
+{
+    sf::Vector2u result = size;
+    for (auto res = Resolutions.rbegin(); res != Resolutions.rend(); res++)
+        if (size.x >= res->x && size.y >= res->y)
+            result = *res;
+
+    return result;
+}    
 
 Application::Application()
 	: mWindow(sf::VideoMode(1280, 720), WIN_TITLE)
@@ -35,25 +54,25 @@ Application::Application()
 	, mStatisticsFramesPerSecond(0)
 {
 	mWindow.setKeyRepeatEnabled(false);
-
+ 
 	loadInitialResources();
-	
+
 	registerStates();
-	
+
 	mStatisticsText.setFont(mFonts.get(Fonts::ID::Mono));
 	mStatisticsText.setCharacterSize(10U);
 	mStatisticsText.setPosition(10.f,10.f);
 
-	mStateStack.pushState(States::ID::Title);
+    mStateStack.pushState(States::ID::Title);
 }
 
 void Application::loadInitialResources()
 {
-	// get the data from the file to the data object. throw if file couldn't be opened.
-	std::string jsonPath = "../src/Resources.json";
+    // read data from file to data object. throw if file couldn't be opened.
+    std::string jsonPath = "../src/Resources.json";
 	std::ifstream i(jsonPath);
 	if (i.fail())
-		throw std::runtime_error("Could not open " + jsonPath);
+		throw std::runtime_error("Could not open file: " + jsonPath);
 	json data;
 	i >> data;
 	i.close();
@@ -78,7 +97,7 @@ void Application::run()
 		{
 			timeSinceLastUpdate -= TimePerFrame;
 
-			processInput();
+			processEvents();
 			update(TimePerFrame);
 
 			// Check inside this loop, because stack might be empty before update() call
@@ -94,7 +113,7 @@ void Application::run()
 	}
 }
 
-void Application::processInput()
+void Application::processEvents()
 {
 	sf::Event event;
 	while (mWindow.pollEvent(event))
@@ -103,8 +122,7 @@ void Application::processInput()
 
 		if (event.type == sf::Event::Closed)
 			mWindow.close();
-			
-	}
+    }
 }
 
 void Application::update(sf::Time dt)

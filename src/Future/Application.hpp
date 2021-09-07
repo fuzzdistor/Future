@@ -9,6 +9,7 @@
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Vector2.hpp>
 
 
 class Application {
@@ -20,7 +21,7 @@ public:
 	void    run();
 
 private:
-	void    processInput();
+	void    processEvents();
 	void    update(sf::Time dt);
 	void    render();
 	void 	loadInitialResources();
