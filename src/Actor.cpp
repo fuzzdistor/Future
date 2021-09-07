@@ -87,9 +87,9 @@ float Actor::getMaxSpeed() const
 }
 
 // Draw instance on [target]
-void Actor::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+void Actor::drawCurrent(sf::RenderTarget&, sf::RenderStates) const
 {
-	target.draw(mSprite, states);
+    // nothing to draw
 }
 
 // Updates the instance. Marks for removal if conditions are met, updates movement pattern, moves the instance and updates texts.
