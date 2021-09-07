@@ -34,8 +34,8 @@ private:
 private:
 	sf::Sprite 		mBackgroundSprite;
 	GUI::Container 	mGUIContainer;
-	std::array<GUI::Button::Ptr, static_cast<int>(Player::ActionID::ActionCount)>	mBindingButtons;
-	std::array<GUI::Label::Ptr, static_cast<int>(Player::ActionID::ActionCount)>	mBindingLabels;
+	std::vector<GUI::Button::Ptr>	mBindingButtons;
+	std::vector<GUI::Label::Ptr>	mBindingLabels;
 };
 
 #endif // SETTINGSSTATE_HPP

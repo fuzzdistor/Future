@@ -11,14 +11,17 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 , mGUIContainer()
 {
 	mBackgroundSprite.setTexture(context.textures->get(Textures::ID::TitleScreen));
-	
+
+    // TODO implement a better way to do this. Kind of a pain to maintain otherwise.    
+    Player& player = *context.player;
+
 	// Build key binding buttons and labels
 	addButtonLabel(Player::ActionID::MoveLeft,		300.f, "Move Left", context);
 	addButtonLabel(Player::ActionID::MoveRight,		350.f, "Move Right", context);
 	addButtonLabel(Player::ActionID::MoveUp,			400.f, "Move Up", context);
 	addButtonLabel(Player::ActionID::MoveDown,		450.f, "Move Down", context);
-	addButtonLabel(Player::ActionID::Fire,			500.f, "Fire", context);
-	addButtonLabel(Player::ActionID::LaunchMissile,	550.f, "Missile", context);
+	//addButtonLabel(Player::ActionID::Fire,			500.f, "Fire", context);
+	//addButtonLabel(Player::ActionID::LaunchMissile,	550.f, "Missile", context);
 	addButtonLabel(Player::ActionID::ToggleDebugMode,	600.f, "Toggle Debug", context);
  
 	updateLabels();
@@ -82,10 +85,10 @@ void SettingsState::updateLabels()
 {
 	Player& player = *getContext().player;
 
-	for (std::size_t i = 0; i < (int)Player::ActionID::ActionCount; ++i)
+	for (auto action: player.getRegisteredActions())
 	{
-		sf::Keyboard::Key key = player.getAssignedKey(static_cast<Player::ActionID>(i));
-		mBindingLabels[i]->setText(util::toString(key));
+		sf::Keyboard::Key key = player.getAssignedKey(action);
+		mBindingLabels[key]->setText(util::toString(key));
 	}
 }
 
