@@ -4,6 +4,7 @@
 #include "Future/Entity.hpp"
 #include "Future/Command.hpp"
 #include "Future/ResourceIdentifiers.hpp"
+#include "Future/SpriteNode.hpp"
 #include "Future/TextNode.hpp"
 #include "Future/json.hpp"
 #include "CommandQueue.hpp"
@@ -30,7 +31,7 @@ public:
 
 
 public:
-	virtual Category::Type  	getCategory() const;
+	virtual Category::Type  	getCategory() const override;
 	virtual sf::FloatRect   	getBoundingRect() const override;
 	virtual bool            	isMarkedForRemoval() const override;
 	bool                    	isAllied() const;
@@ -48,7 +49,7 @@ private:
 
 private:
 	Type						mType;
-	sf::Sprite					mSprite;
+	SpriteNode*                 mSprite;
 	bool 						mIsMarkedForRemoval;
 
 	float						mTravelledDistance;

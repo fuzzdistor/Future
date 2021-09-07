@@ -23,14 +23,16 @@ namespace
 
 Actor::Actor(Type type, const TextureHolder& textures, const FontHolder& fonts)
 	: mType(type)
-	, mSprite(textures.get(getDataTableOf(type, Table).texture))
+	, mSprite()
 	, mIsMarkedForRemoval(false)
 	, mTravelledDistance(0.f)
 	, mDirectionsIndex(0)
 	, mTextDisplay(nullptr)
 	, mTextDisplay2(nullptr)
 {
-	util::centerOrigin(mSprite);
+    auto sprite = std::make_unique<SpriteNode>(textures.get(getDataTableOf(type, Table).texture));
+    mSprite = sprite.get();
+    attachChild(std::move(sprite));
 
 	std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
 	mTextDisplay = healthDisplay.get();
@@ -63,7 +65,7 @@ Category::Type Actor::getCategory() const
 // 
 sf::FloatRect Actor::getBoundingRect() const
 {
-	return getWorldTransform().transformRect(mSprite.getGlobalBounds());
+	return getWorldTransform().transformRect(mSprite->getGlobalBounds());
 }
 
 // getter for member isMarkedForRemoval
