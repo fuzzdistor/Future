@@ -65,7 +65,7 @@ bool StateStack::isEmpty() const
 State::Ptr StateStack::createState(States::ID stateID)
 {
 	auto found = mFactories.find(stateID);
-	assert(found != mFactories.end());
+	assert(found != mFactories.end() && "the state was not registered");
 
 	return found->second();
 }
