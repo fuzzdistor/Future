@@ -2,6 +2,10 @@
   "Room1":{
     "Textures":[
       {
+        "ID":"House",
+        "file":"../media/House.png"
+      },
+      {
         "ID":"BlueGuy",
         "file":"../media/BlueGuy.png"
       },
