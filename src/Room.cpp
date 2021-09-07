@@ -14,6 +14,8 @@
 #include <limits>
 #include <fstream>
 
+using json = nlohmann::json;
+
 
 Room::Room(sf::RenderWindow& window, FontHolder& fonts)
 	: mWindow(window)
@@ -49,21 +51,21 @@ void Room::update(sf::Time dt)
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
-	adaptPlayerVelocity();
+	// daptPlayerVelocity();
 
 	// Collision detection and response (may destroy entities)
 	handleCollisions();
 
 	// Remove all destroyed entities, create new ones
 	mSceneGraph.removeMarked();
-	spawnEnemies();
-
-	//sf::Vector2f vec = mFinishLine->getWorldPosition() - mPlayerCharacter->getWorldPosition();
-	//float angle = util::toDegree(atan2(vec.y, vec.x));
-	//mArrow->setRotation(angle);
+    // spawnEnemies();
+    
+	sf::Vector2f vec = mFinishLine->getWorldPosition() - mPlayerCharacter->getWorldPosition();
+	float angle = util::toDegree(atan2(vec.y, vec.x));
+	mArrow->setRotation(angle);
 	mArrow->setRotation(1.f);
 	mArrow->setOrigin(0.f,0.f);
-	// mArrow->setOrigin(sf::Vector2f(-std::min(100.f, util::length(vec)), 0.f));
+	mArrow->setOrigin(sf::Vector2f(-std::min(100.f, util::length(vec)), 0.f));
 
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
@@ -100,20 +102,18 @@ bool Room::isWinConditionMet() const
 
 void Room::loadTextures()
 {
-	std::ifstream i("../src/Resources.json");
-	nlohmann::json textureData;
-	i >> textureData;
+    std::string jsonPath = "../src/Resources.json";
+	std::ifstream i(jsonPath);
+	if (i.fail())
+		throw std::runtime_error("Could not open file: " + jsonPath);
+	json data;
+	i >> data;
 
-	for (auto element : textureData["Room1"]["Textures"])
-	{
-		mTextures.load(element["ID"].get<Textures::ID>(), element["file"].get<std::string>());
-	}
+    loadResource<Textures::ID>(mTextures, data["Room1"]["Textures"]);
 }
 
 void Room::adaptPlayerPosition()
 {
-	// Keep player's position inside the screen bounds, at least borderDistance units from the border
-	sf::FloatRect viewBounds = getViewBounds();
 	const float borderDistance = 40.f;
 
 	sf::Vector2f position = mPlayerCharacter->getPosition();
@@ -210,6 +210,11 @@ void Room::buildScene()
 	backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
 	mSceneLayers[Layer::Background]->attachChild(std::move(backgroundSprite));
 
+    // Add House thing
+    auto houseSprite = std::make_unique<SpriteNode>(mTextures.get(Textures::ID::House));
+    houseSprite->setPosition(mSpawnPosition - sf::Vector2f(0.f, 200.f));
+    mSceneLayers[Layer::Background]->attachChild(std::move(houseSprite));
+
 	// Add player
 	std::unique_ptr<Actor> player(new Actor(Actor::Type::Nanotech, mTextures, mFonts));
 	mPlayerCharacter = player.get();
@@ -227,15 +232,14 @@ void Room::buildScene()
 
 	std::unique_ptr<Actor> door(new Actor(Actor::Type::Door, mTextures, mFonts));
 	mFinishLine = door.get();
-	mFinishLine->setPosition(sf::Vector2f(200.f + util::randomInt(1600), 200.f + util::randomInt(1600)));
+	mFinishLine->setPosition(sf::Vector2f(200.f + static_cast<float>(util::randomInt(1600)), 200.f + static_cast<float>(util::randomInt(1600))));
 	mSceneLayers[Layer::Background]->attachChild(std::move(door));
 
-	std::function<void(SceneNode&, sf::Time)> tAction = [this](SceneNode& s, sf::Time dt) { this->mWinFlag = true; };
+	std::function<void(SceneNode&, sf::Time)> tAction = [this](SceneNode&, sf::Time) { this->mWinFlag = true; };
 	auto trigger = std::make_unique<TriggerNode>(derivedAction<SceneNode>(tAction));
 	trigger->setPosition(mSpawnPosition + sf::Vector2f(300.f, 0.f));
 	mSceneLayers[Layer::Playfield]->attachChild(std::move(trigger));
 
-    mFinishLine = std::exchange(mPlayerCharacter, mFinishLine);
 }
 
 void Room::addEnemies()
