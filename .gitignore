@@ -3,4 +3,4 @@ bin
 build
 Debug
 !.gitignore
-
+compile_commands.json
