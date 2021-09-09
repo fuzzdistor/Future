@@ -61,7 +61,7 @@ void Room::update(sf::Time dt)
     // spawnEnemies();
     
 	sf::Vector2f vec = mFinishLine->getWorldPosition() - mPlayerCharacter->getWorldPosition();
-	float angle = util::toDegree(atan2(vec.y, vec.x));
+	float angle = util::toDegree(atan2f(vec.y, vec.x));
 	mArrow->setRotation(angle);
 	mArrow->setRotation(1.f);
 	mArrow->setOrigin(0.f,0.f);
