@@ -13,7 +13,6 @@ SettingsState::SettingsState(StateStack& stack, Context context)
 	mBackgroundSprite.setTexture(context.textures->get(Textures::ID::TitleScreen));
 
     // TODO implement a better way to do this. Kind of a pain to maintain otherwise.    
-    Player& player = *context.player;
 
 	// Build key binding buttons and labels
 	addButtonLabel(Player::ActionID::MoveLeft,		300.f, "Move Left", context);
@@ -58,7 +57,7 @@ bool SettingsState::handleEvent(const sf::Event& event)
 	
 	
 	// Iterate through all key binding buttons to see if they are being pressed, waiting for the user to enter a key
-	for (std::size_t action = 0; action < getContext().player->getActionsSize(); ++action)
+	for (auto action: getContext().player->getRegisteredActions())
 	{
 		if (mBindingButtons[action]->isActive())
 		{
@@ -88,22 +87,22 @@ void SettingsState::updateLabels()
 	for (auto action: player.getRegisteredActions())
 	{
 		sf::Keyboard::Key key = player.getAssignedKey(action);
-		mBindingLabels[key]->setText(util::toString(key));
+		mBindingLabels.at(key)->setText(util::toString(key));
 	}
 }
 
 void SettingsState::addButtonLabel(Player::ActionID action, float y, const std::string& text, Context context)
 {
+    sf::Keyboard::Key key = getContext().player->getAssignedKey(action);
 	//TODO v v v v v FIX THIS MESS v v v v v
-	int actionIndex = (int)action;
-	mBindingButtons[actionIndex] = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	mBindingButtons[actionIndex]->setPosition(80.f, y);
-	mBindingButtons[actionIndex]->setText(text);
-	mBindingButtons[actionIndex]->setToggle(true);
+	mBindingButtons.emplace(action, std::make_shared<GUI::Button>(*context.fonts, *context.textures));
+	mBindingButtons.at(action)->setPosition(80.f, y);
+	mBindingButtons.at(action)->setText(text);
+	mBindingButtons.at(action)->setToggle(true);
 
-	mBindingLabels[actionIndex] = std::make_shared<GUI::Label>("", *context.fonts);
-	mBindingLabels[actionIndex]->setPosition(300.f, y + 15.f);
+	mBindingLabels[key] = std::make_shared<GUI::Label>("", *context.fonts);
+	mBindingLabels[key]->setPosition(300.f, y + 15.f);
 
-	mGUIContainer.pack(mBindingButtons[actionIndex]);
-	mGUIContainer.pack(mBindingLabels[actionIndex]);
+	mGUIContainer.pack(mBindingButtons.at(action));
+	mGUIContainer.pack(mBindingLabels[key]);
 }

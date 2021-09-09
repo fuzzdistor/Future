@@ -34,8 +34,8 @@ private:
 private:
 	sf::Sprite 		mBackgroundSprite;
 	GUI::Container 	mGUIContainer;
-	std::vector<GUI::Button::Ptr>	mBindingButtons;
-	std::vector<GUI::Label::Ptr>	mBindingLabels;
+	std::map<Player::ActionID, GUI::Button::Ptr>	mBindingButtons;
+	std::map<sf::Keyboard::Key, GUI::Label::Ptr>	mBindingLabels;
 };
 
 #endif // SETTINGSSTATE_HPP
