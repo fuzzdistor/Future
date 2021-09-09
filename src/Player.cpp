@@ -18,11 +18,6 @@ struct ActorMover
 	sf::Vector2f velocity;
 };
 
-size_t Player::getActionsSize() const
-{
-	return mActionBinding.size();
-}
-
 Player::Player()
 	: mCurrentMissionStatus(MissionStatus::MissionRunning)
     , mRegisteredActions()
@@ -90,7 +85,7 @@ void Player::initActions()
 	initAction(sf::Keyboard::Up, 		ActionID::MoveUp, 			derivedAction<Actor>(ActorMover( 0, -1)));
 	initAction(sf::Keyboard::Down, 		ActionID::MoveDown, 		derivedAction<Actor>(ActorMover( 0, +1)));
 
-	initAction(sf::Keyboard::Q, 		ActionID::ToggleDebugMode, 	derivedAction<SceneNode>([] (SceneNode& s, sf::Time dt){ s.toggleDebugFlag(); }), Category::Type::All);
+	initAction(sf::Keyboard::Q, 		ActionID::ToggleDebugMode, 	derivedAction<SceneNode>([] (SceneNode& s, sf::Time){ s.toggleDebugFlag(); }), Category::Type::All);
 }
 
 std::vector<Player::ActionID>& Player::getRegisteredActions()

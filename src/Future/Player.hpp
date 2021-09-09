@@ -44,8 +44,9 @@ public:
 
 	void                setMissionStatus(MissionStatus status);
 	MissionStatus       getMissionStatus() const;
-	size_t				getActionsSize() const;
+
     std::vector<ActionID>& getRegisteredActions();
+
 private:
 	void                initActions();
 	void                initAction(sf::Keyboard::Key key, ActionID actionID, Command::Action action, Category::Type category = Category::Type::PlayerActor);
