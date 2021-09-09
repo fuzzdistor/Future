@@ -39,6 +39,8 @@ private:
 
 	StateStack                  mStateStack;
 
+    bool                        mWindowHasFocus;
+
 	sf::Text                    mStatisticsText;
 	sf::Time                    mStatisticsUpdateTime;
 	std::size_t                 mStatisticsFrameCount;

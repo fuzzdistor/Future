@@ -48,6 +48,7 @@ Application::Application()
 	, mFonts()
 	, mPlayer()
 	, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
+    , mWindowHasFocus(true)
 	, mStatisticsText()
 	, mStatisticsUpdateTime()
 	, mStatisticsFrameCount(0)
@@ -93,24 +94,26 @@ void Application::run()
 	{
 		sf::Time dt = clock.restart();
 		timeSinceLastUpdate += dt;
+
 		while (timeSinceLastUpdate > TimePerFrame)
 		{
 			timeSinceLastUpdate -= TimePerFrame;
 
 			processEvents();
-			update(TimePerFrame);
+
+            // Only update if window has focus
+            if (mWindowHasFocus)
+                update(TimePerFrame);
 
 			// Check inside this loop, because stack might be empty before update() call
 			if (mStateStack.isEmpty())
 				mWindow.close();
-		}
+        }
 
-		updateStatistics(dt);
+        updateStatistics(dt);
 
-		
-	
-		render();
-	}
+        render();
+    }
 }
 
 void Application::processEvents()
@@ -118,10 +121,17 @@ void Application::processEvents()
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
-		mStateStack.handleEvent(event);
+        // application related event handling
+        if (event.type == sf::Event::Closed)
+            mWindow.close();
+        if (event.type == sf::Event::LostFocus)
+            mWindowHasFocus = false;
+        if (event.type == sf::Event::GainedFocus)
+            mWindowHasFocus = true;
 
-		if (event.type == sf::Event::Closed)
-			mWindow.close();
+        // don't update the states if window is out of focus
+        if (mWindowHasFocus)
+            mStateStack.handleEvent(event);
     }
 }
 
