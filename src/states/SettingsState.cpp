@@ -59,12 +59,12 @@ bool SettingsState::handleEvent(const sf::Event& event)
 	// Iterate through all key binding buttons to see if they are being pressed, waiting for the user to enter a key
 	for (auto action: getContext().player->getRegisteredActions())
 	{
-		if (mBindingButtons[action]->isActive())
+        if (mBindingButtons[action]->isActive())
 		{
 			isKeyBinding = true;
-			if (event.type == sf::Event::KeyReleased)
+			if (event.type == sf::Event::KeyPressed)
 			{
-				getContext().player->assignKey(static_cast<Player::ActionID>(action), event.key.code);
+				getContext().player->assignKey(action, event.key.code);
 				mBindingButtons[action]->deactivate();
 			}
 			break;
