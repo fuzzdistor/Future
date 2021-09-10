@@ -3,6 +3,7 @@
 
 #include "gui/Component.hpp"
 
+#include <optional>
 #include <vector>
 #include <memory>
 
@@ -23,7 +24,8 @@ public:
 	Container();
 
 public:
-	void            pack(Component::Ptr component);
+    // adds the component param and points mSelectedChild to it 
+    void            pack(Component::Ptr component);
 
 	virtual bool    isSelectable() const override;
 	virtual void    handleEvent(const sf::Event& event) override;
@@ -31,14 +33,13 @@ public:
 private:
 	virtual void    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-	bool    hasSelection() const;
-	void    selectIndex(int index);
+	void    selectIndex(size_t index);
 	void    selectNext();
 	void    selectPrevious();
 
 private:
 	std::vector<Component::Ptr>     mChildren;
-	int                             mSelectedChild;
+    std::optional<size_t>           mSelectedChild;
 };
 
 }
