@@ -37,10 +37,9 @@ public:
 
     bool            hasAlivePlayer() const;
 
-    constexpr CommandQueue& 	getCommandQueue();
+    constexpr CommandQueue& getCommandQueue() { return mCommandQueue; }
 
-	constexpr bool 			hasFinishedLevel() const;
-	constexpr bool		    isWinConditionMet() const;
+    constexpr bool hasFinishedLevel() const { return mWinFlag; }
 	
 private:
 	void		    loadTextures();

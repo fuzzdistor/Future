@@ -74,30 +74,15 @@ void Room::update(sf::Time dt)
 	mWorldView.setCenter(mPlayerCharacter->getPosition() + mPlayerCharacter->getOrigin());
 }
 
-constexpr bool Room::hasFinishedLevel() const
-{
-	return isWinConditionMet();
-}
-
 void Room::draw()
 {
 	mWindow.setView(mWorldView);
 	mWindow.draw(mSceneGraph);
 }
 
-constexpr CommandQueue& Room::getCommandQueue()
-{
-	return mCommandQueue;
-}
-
 bool Room::hasAlivePlayer() const
 {
 	return !mPlayerCharacter->isMarkedForRemoval();
-}
-
-constexpr bool Room::isWinConditionMet() const
-{
-	return mWinFlag;
 }
 
 void Room::loadTextures()

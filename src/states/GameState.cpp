@@ -23,7 +23,7 @@ bool GameState::update(sf::Time dt)
 		mPlayer.setMissionStatus(Player::MissionStatus::MissionFailure);
 		requestStackPush(States::ID::GameOver);
 	}
-	else if(mRoom.isWinConditionMet())
+	else if(mRoom.hasFinishedLevel())
 	{
 		mPlayer.setMissionStatus(Player::MissionStatus::MissionSuccess);
 		requestStackPush(States::ID::GameOver);
