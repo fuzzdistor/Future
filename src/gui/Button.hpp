@@ -25,7 +25,7 @@ namespace GUI
 class Button : public Component
 {
 public:
-	typedef std::shared_ptr<Button>    Ptr;
+    typedef std::shared_ptr<Button>    Ptr;
 	typedef std::function<void()>       Callback;
 
 public:

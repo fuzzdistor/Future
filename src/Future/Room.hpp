@@ -35,9 +35,10 @@ public:
 	void			update(sf::Time dt);
 	void			draw();
 
-	constexpr CommandQueue& 	getCommandQueue();
+    bool            hasAlivePlayer() const;
 
-	bool            hasAlivePlayer() const;
+    constexpr CommandQueue& 	getCommandQueue();
+
 	constexpr bool 			hasFinishedLevel() const;
 	constexpr bool		    isWinConditionMet() const;
 	

@@ -30,7 +30,7 @@ bool GameState::update(sf::Time dt)
 	}
 
 	CommandQueue& commands = mRoom.getCommandQueue();
-	mPlayer.handleRealTimeInput(commands);
+    mPlayer.handleRealTimeInput(commands);
 
 	return true;
 }

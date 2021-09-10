@@ -84,7 +84,7 @@ void GUI::Button::deactivate()
 	}	
 }
 
-void GUI::Button::handleEvent(const sf::Event& event)
+void GUI::Button::handleEvent(const sf::Event&)
 {
 }
 
