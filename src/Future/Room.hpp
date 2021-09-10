@@ -35,11 +35,11 @@ public:
 	void			update(sf::Time dt);
 	void			draw();
 
-	CommandQueue& 	getCommandQueue();
+	constexpr CommandQueue& 	getCommandQueue();
 
 	bool            hasAlivePlayer() const;
-	bool 			hasFinishedLevel() const;
-	bool		    isWinConditionMet() const;
+	constexpr bool 			hasFinishedLevel() const;
+	constexpr bool		    isWinConditionMet() const;
 	
 private:
 	void		    loadTextures();

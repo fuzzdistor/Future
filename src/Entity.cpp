@@ -24,7 +24,7 @@ sf::Vector2f Entity::getVelocity() const
 	return mVelocity;
 }
 
-void Entity::destroy()
+constexpr void Entity::destroy()
 {
 	mDestroyFlag = true;
 }
@@ -44,7 +44,7 @@ bool Entity::isDestroyed() const
 	return mDestroyFlag;
 }
 
-void Entity::updateCurrent(sf::Time dt, CommandQueue& commands)
+void Entity::updateCurrent(sf::Time dt, CommandQueue&)
 {
 	move(mVelocity * dt.asSeconds());
 }

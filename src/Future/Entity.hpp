@@ -22,7 +22,7 @@ public:
 	void            accelerate(float vx, float vy);
 	sf::Vector2f    getVelocity() const;
 
-	void            destroy();
+	constexpr void  destroy();
 	virtual bool    isDestroyed() const override;
 
 protected:

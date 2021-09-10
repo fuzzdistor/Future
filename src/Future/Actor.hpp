@@ -31,10 +31,10 @@ public:
 
 
 public:
-	virtual Category::Type  	getCategory() const override;
+    virtual Category::Type  	getCategory() const override;
 	virtual sf::FloatRect   	getBoundingRect() const override;
 	virtual bool            	isMarkedForRemoval() const override;
-	bool                    	isAllied() const;
+	constexpr bool             	isAllied() const;
 	float                   	getMaxSpeed() const;
 
 	void 						from_json(const json& j, Actor& p);
@@ -43,7 +43,7 @@ private:
 	virtual void				drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 	virtual void 				updateCurrent(sf::Time dt, CommandQueue& commands) override;
 	void						updateMovementPattern(sf::Time dt);
-	virtual sf::Color			getBoundingRectColor() const override;
+	virtual sf::Color           getBoundingRectColor() const override;
 
 	void						updateTexts();
 

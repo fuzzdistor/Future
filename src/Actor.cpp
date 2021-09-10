@@ -75,7 +75,7 @@ bool Actor::isMarkedForRemoval() const
 }
 
 // \returns true if Actor type is Nanotech 
-bool Actor::isAllied() const
+constexpr bool Actor::isAllied() const
 {
 	return mType == Type::Nanotech;
 }

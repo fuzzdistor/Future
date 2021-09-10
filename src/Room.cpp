@@ -74,7 +74,7 @@ void Room::update(sf::Time dt)
 	mWorldView.setCenter(mPlayerCharacter->getPosition() + mPlayerCharacter->getOrigin());
 }
 
-bool Room::hasFinishedLevel() const
+constexpr bool Room::hasFinishedLevel() const
 {
 	return isWinConditionMet();
 }
@@ -85,7 +85,7 @@ void Room::draw()
 	mWindow.draw(mSceneGraph);
 }
 
-CommandQueue& Room::getCommandQueue()
+constexpr CommandQueue& Room::getCommandQueue()
 {
 	return mCommandQueue;
 }
@@ -95,7 +95,7 @@ bool Room::hasAlivePlayer() const
 	return !mPlayerCharacter->isMarkedForRemoval();
 }
 
-bool Room::isWinConditionMet() const
+constexpr bool Room::isWinConditionMet() const
 {
 	return mWinFlag;
 }
