@@ -1,10 +1,13 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
+#include "Future/json.hpp"
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include <string>
+
+using json = nlohmann::json;
 
 namespace sf
 {
@@ -12,14 +15,17 @@ namespace sf
 	class Text;
 }
 
+class SpriteNode;
 
 namespace util
 {
 
 // Convert enumerators to strings
-
 std::string		toString(sf::Keyboard::Key key);
 
+json            readDataFromFile(std::string filePath);
+
+void			centerOrigin(SpriteNode& spriteNode);
 void			centerOrigin(sf::Sprite& sprite);
 void			centerOrigin(sf::Text& text);
 

@@ -87,12 +87,7 @@ bool Room::hasAlivePlayer() const
 
 void Room::loadTextures()
 {
-    std::string jsonPath = "../src/Resources.json";
-	std::ifstream i(jsonPath);
-	if (i.fail())
-		throw std::runtime_error("Could not open file: " + jsonPath);
-	json data;
-	i >> data;
+	json data = util::readDataFromFile("src/Resources.json");
 
     loadResource<Textures::ID>(mTextures, data["Room1"]["Textures"]);
 }
@@ -198,6 +193,7 @@ void Room::buildScene()
     // Add House thing
     auto houseSprite = std::make_unique<SpriteNode>(mTextures.get(Textures::ID::House));
     houseSprite->setPosition(mSpawnPosition - sf::Vector2f(0.f, 200.f));
+    SpriteNode* house = houseSprite.get();
     mSceneLayers[Layer::Background]->attachChild(std::move(houseSprite));
 
 	// Add player
@@ -220,10 +216,14 @@ void Room::buildScene()
 	mFinishLine->setPosition(sf::Vector2f(200.f + static_cast<float>(util::randomInt(1600)), 200.f + static_cast<float>(util::randomInt(1600))));
 	mSceneLayers[Layer::Background]->attachChild(std::move(door));
 
+    // Door trigger
+	json data = util::readDataFromFile("src/DataTables.json");
+
 	std::function<void(SceneNode&, sf::Time)> tAction = [this](SceneNode&, sf::Time) { this->mWinFlag = true; };
 	auto trigger = std::make_unique<TriggerNode>(derivedAction<SceneNode>(tAction));
-	trigger->setPosition(mSpawnPosition + sf::Vector2f(300.f, 0.f));
-	mSceneLayers[Layer::Playfield]->attachChild(std::move(trigger));
+	trigger->setPosition(data["Room1"]["ExitX"], data["Room1"]["ExitY"]);
+    /* house->attachChild(std::move(trigger)); */
+    mSceneLayers[Layer::Playfield]->attachChild(std::move(trigger));
 
 }
 

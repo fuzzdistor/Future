@@ -1,4 +1,6 @@
 #include "Future/Utils.hpp"
+#include "Future/Actor.hpp"
+#include "Future/SpriteNode.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -8,7 +10,9 @@
 #include <cmath>
 #include <ctime>
 #include <cassert>
+#include <fstream>
 
+using json = nlohmann::json;
 
 namespace 
 {
@@ -19,6 +23,17 @@ namespace
 	}
 
 	auto RandomEngine = createRandomEngine();
+}
+
+json util::readDataFromFile(std::string filePath)
+{
+	std::ifstream i(filePath);
+	if (i.fail())
+		throw std::runtime_error("Could not open file: " + filePath);
+	json data;
+	i >> data;
+	i.close();
+    return data;
 }
 
 std::string util::toString(sf::Keyboard::Key key)
@@ -132,6 +147,12 @@ std::string util::toString(sf::Keyboard::Key key)
 	}
 
 	return "";
+}
+
+void util::centerOrigin(SpriteNode& spriteNode)
+{
+	sf::FloatRect bounds = spriteNode.getBoundingRect();
+	spriteNode.setOrigin(std::floor(bounds.left + bounds.width / 2.f), std::floor(bounds.top + bounds.height / 2.f));
 }
 
 void util::centerOrigin(sf::Sprite& sprite)

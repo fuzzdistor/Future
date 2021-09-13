@@ -29,6 +29,8 @@ private:
 	void    updateStatistics(sf::Time dt);
 	void    registerStates(); 
 
+    void    updateMousePositionCoord();
+
 private:
 	static const sf::Time       TimePerFrame;
 
@@ -45,6 +47,8 @@ private:
 	sf::Time                    mStatisticsUpdateTime;
 	std::size_t                 mStatisticsFrameCount;
 	std::size_t                 mStatisticsFramesPerSecond;
+    sf::Text                    mMousePositionText;
+    sf::Vector2i                mMousePosition;
 };
 
 #endif // APPLICATION_HPP

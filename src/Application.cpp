@@ -1,5 +1,6 @@
 #include "Future/Application.hpp"
 #include "Future/json.hpp"
+#include "Future/Utils.hpp"
 #include "states/TitleState.hpp"
 #include "states/MenuState.hpp"
 #include "states/GameState.hpp"
@@ -13,9 +14,7 @@
 
 #include <string>
 #include <cassert>
-#include <fstream>
 #include <iostream>
-#include <stdexcept>
 
 #ifndef NDEBUG
 #define WIN_TITLE "!!!DEBUG!!! Future Game"
@@ -43,16 +42,18 @@ sf::Vector2u getAppropiateResolution(const sf::Vector2u &size)
 }    
 
 Application::Application()
-	: mWindow(sf::VideoMode(1280, 720), WIN_TITLE)
-	, mTextures()
-	, mFonts()
-	, mPlayer()
-	, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
+    : mWindow(sf::VideoMode(1280, 720), WIN_TITLE)
+    , mTextures()
+    , mFonts()
+    , mPlayer()
+    , mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
     , mWindowHasFocus(true)
-	, mStatisticsText()
-	, mStatisticsUpdateTime()
-	, mStatisticsFrameCount(0)
-	, mStatisticsFramesPerSecond(0)
+    , mStatisticsText()
+    , mStatisticsUpdateTime()
+    , mStatisticsFrameCount(0)
+    , mStatisticsFramesPerSecond(0)
+    , mMousePositionText()
+    , mMousePosition()
 {
 	mWindow.setKeyRepeatEnabled(false);
  
@@ -64,19 +65,16 @@ Application::Application()
 	mStatisticsText.setCharacterSize(10U);
 	mStatisticsText.setPosition(10.f,10.f);
 
+	mMousePositionText.setFont(mFonts.get(Fonts::ID::Mono));
+	mMousePositionText.setCharacterSize(10U);
+	mMousePositionText.setPosition(10.f,25.f);
+
     mStateStack.pushState(States::ID::Title);
 }
 
 void Application::loadInitialResources()
 {
-    // read data from file to data object. throw if file couldn't be opened.
-    std::string jsonPath = "../src/Resources.json";
-	std::ifstream i(jsonPath);
-	if (i.fail())
-		throw std::runtime_error("Could not open file: " + jsonPath);
-	json data;
-	i >> data;
-	i.close();
+	json data = util::readDataFromFile("src/Resources.json");
 
 	// load textures
 	loadResource<Textures::ID>(mTextures, data["Title"]["Textures"]);
@@ -100,6 +98,7 @@ void Application::run()
 			timeSinceLastUpdate -= TimePerFrame;
 
 			processEvents();
+            updateMousePositionCoord();
 
             // Only update if window has focus
             if (mWindowHasFocus)
@@ -149,6 +148,7 @@ void Application::render()
 	mWindow.setView(mWindow.getDefaultView());
 
 	mWindow.draw(mStatisticsText);
+	mWindow.draw(mMousePositionText);
 
 	mWindow.display();
 }
@@ -165,6 +165,13 @@ void Application::updateStatistics(sf::Time dt)
 		mStatisticsUpdateTime -= sf::seconds(1.0f);
 		mStatisticsFrameCount = 0;
 	}
+} 
+
+void Application::updateMousePositionCoord()
+{
+    mMousePosition = sf::Mouse::getPosition(mWindow);
+    sf::Vector2f mouseWorldPos = mWindow.getView().getCenter(); //- mWindow.getView().getSize() / 2.f; 
+    mMousePositionText.setString(std::to_string(mouseWorldPos.x) + " X: " + std::to_string(sf::Mouse::getPosition(mWindow).x) + " Y: " + std::to_string(sf::Mouse::getPosition(mWindow).y)); 
 }
 
 void Application::registerStates()
