@@ -31,6 +31,7 @@ Actor::Actor(Type type, const TextureHolder& textures, const FontHolder& fonts)
 	, mTextDisplay2(nullptr)
 {
     auto sprite = std::make_unique<SpriteNode>(textures.get(getDataTableOf(type, Table).texture));
+    util::centerOrigin(*sprite);
     mSprite = sprite.get();
     attachChild(std::move(sprite));
 
