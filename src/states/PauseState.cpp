@@ -31,8 +31,17 @@ PauseState::PauseState(StateStack& stack, Context context)
 		requestStackPop();
 	});
 
+	auto resetButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
+	resetButton->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 125);
+	resetButton->setText("Reset Level");
+	resetButton->setCallback([this] ()
+	{
+		requestStateClear();
+		requestStackPush(States::ID::Game);
+	});
+
 	auto backToMenuButton = std::make_shared<GUI::Button>(*context.fonts, *context.textures);
-	backToMenuButton->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 125);
+	backToMenuButton->setPosition(0.5f * windowSize.x - 100, 0.4f * windowSize.y + 175);
 	backToMenuButton->setText("Back to menu");
 	backToMenuButton->setCallback([this] ()
 	{
@@ -42,6 +51,7 @@ PauseState::PauseState(StateStack& stack, Context context)
 	});
 
 	mGUIContainer.pack(returnButton);
+	mGUIContainer.pack(resetButton);
 	mGUIContainer.pack(backToMenuButton);
 }
 
