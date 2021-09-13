@@ -3,27 +3,27 @@
     "Textures":[
       {
         "ID":"House",
-        "file":"../media/House.png"
+        "file":"media/House.png"
       },
       {
         "ID":"BlueGuy",
-        "file":"../media/BlueGuy.png"
+        "file":"media/BlueGuy.png"
       },
       {
         "ID":"Enemy",
-        "file":"../media/Yellow.png"
+        "file":"media/Yellow.png"
       },
       {
         "ID":"Background",
-        "file":"../media/BackgroundDark.png"
+        "file":"media/BackgroundDark.png"
       },
       {
         "ID":"Door",
-        "file":"../media/Yellow.png"
+        "file":"media/Yellow.png"
       },
       {
         "ID":"Wall",
-        "file":"../media/Purple.png"
+        "file":"media/Purple.png"
       }
     ]
   },
@@ -31,29 +31,29 @@
     "Textures":[
       {
         "ID":"TitleScreen",
-        "file":"../media/Background.png"
+        "file":"media/Background.png"
       },
       {
         "ID":"GUIButtonNormal",
-        "file":"../media/Blue.png"
+        "file":"media/Blue.png"
       },
       {
         "ID":"GUIButtonSelected",
-        "file":"../media/Purple.png"
+        "file":"media/Purple.png"
       },
       {
         "ID":"GUIButtonPressed",
-        "file":"../media/Pink.png"
+        "file":"media/Pink.png"
       }
     ],
     "Fonts":[
       {
         "ID": "Mono",
-        "file": "../media/JetBrainsMono.otf"
+        "file": "media/JetBrainsMono.otf"
       },
       {
         "ID": "Main",
-        "file": "../media/GemunuLibre[wght].ttf"
+        "file": "media/GemunuLibre[wght].ttf"
       }
     ]
   }
