@@ -12,6 +12,7 @@ public:
     SpriteNode(const sf::Texture& texture, const sf::IntRect& textureRect);
 
     sf::FloatRect       getGlobalBounds() const;
+    sf::FloatRect       getBoundingRect() const override;
 
 private:
 	virtual void 		drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;

@@ -18,6 +18,11 @@ void SpriteNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) 
 	target.draw(mSprite, states);
 }
 
+sf::FloatRect SpriteNode::getBoundingRect() const
+{
+    return mSprite.getLocalBounds(); 
+}
+
 sf::FloatRect SpriteNode::getGlobalBounds() const
 {
     return mSprite.getGlobalBounds();
