@@ -15,47 +15,47 @@ GameOverState::GameOverState(StateStack& stack, Context context)
 , mElapsedTime(sf::Time::Zero)
 , mDarkBackground()
 {
-	sf::Font& font = context.fonts->get(Fonts::ID::Main);
-	sf::Vector2f windowSize(context.window->getSize());
+    sf::Font& font = context.fonts->get(Fonts::ID::Main);
+    sf::Vector2f windowSize(context.window->getSize());
 
-	mGameOverText.setFont(font);
-	if (context.player->getMissionStatus() == Player::MissionStatus::MissionFailure)
-		mGameOverText.setString("Mission failed!");	
-	else
-		mGameOverText.setString("Mission successful!");
+    mGameOverText.setFont(font);
+    if (context.player->getMissionStatus() == Player::MissionStatus::MissionFailure)
+        mGameOverText.setString("Mission failed!");    
+    else
+        mGameOverText.setString("Mission successful!");
 
-	mGameOverText.setCharacterSize(70);
-	util::centerOrigin(mGameOverText);
-	mGameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
+    mGameOverText.setCharacterSize(70);
+    util::centerOrigin(mGameOverText);
+    mGameOverText.setPosition(0.5f * windowSize.x, 0.4f * windowSize.y);
 
-	mDarkBackground.setFillColor(sf::Color(0, 0, 0, 150));
+    mDarkBackground.setFillColor(sf::Color(0, 0, 0, 150));
 }
 
 void GameOverState::draw()
 {
-	sf::RenderWindow& window = *getContext().window;
-	window.setView(window.getDefaultView());
+    sf::RenderWindow& window = *getContext().window;
+    window.setView(window.getDefaultView());
 
-	mDarkBackground.setSize(window.getView().getSize());
+    mDarkBackground.setSize(window.getView().getSize());
 
-	window.draw(mDarkBackground);
-	window.draw(mGameOverText);
+    window.draw(mDarkBackground);
+    window.draw(mGameOverText);
 }
 
 bool GameOverState::update(sf::Time dt)
 {
-	// Show state for 3 seconds, after return to menu
-	mElapsedTime += dt;
-	if (mElapsedTime > sf::seconds(3))
-	{
-		requestStateClear();
-		requestStackPush(States::ID::Game);
-		requestStackPush(States::ID::Menu);
-	}
-	return false;
+    // Show state for 3 seconds, after return to menu
+    mElapsedTime += dt;
+    if (mElapsedTime > sf::seconds(3))
+    {
+        requestStateClear();
+        requestStackPush(States::ID::Game);
+        requestStackPush(States::ID::Menu);
+    }
+    return false;
 }
 
 bool GameOverState::handleEvent(const sf::Event&)
 {
-	return false;
+    return false;
 }

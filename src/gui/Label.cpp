@@ -20,11 +20,11 @@ void GUI::Label::handleEvent(const sf::Event&)
 
 void GUI::Label::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.transform *= getTransform();
-	target.draw(mText, states);
+    states.transform *= getTransform();
+    target.draw(mText, states);
 }
 
 void GUI::Label::setText(const std::string& text)
 {
-	mText.setString(text);
+    mText.setString(text);
 }

@@ -22,79 +22,79 @@
 
 namespace sf
 {
-	class RenderWindow;
+    class RenderWindow;
 }
 
 
 class Room : private sf::NonCopyable
 {
 public:
-	Room(sf::RenderWindow& window, FontHolder& fonts);
+    Room(sf::RenderWindow& window, FontHolder& fonts);
 
 public:
-	void			update(sf::Time dt);
-	void			draw();
+    void            update(sf::Time dt);
+    void            draw();
 
     bool            hasAlivePlayer() const;
     constexpr bool  hasFinishedLevel() const { return mWinFlag; }
 
     constexpr CommandQueue& getCommandQueue() { return mCommandQueue; }
 
-	
+    
 private:
-	void		    loadTextures();
-	void            adaptPlayerPosition();
-	void            adaptPlayerVelocity();
-	void            handleCollisions();
-	
-	void            buildScene();
-	void            addEnemies();
-	void            addEnemy(Actor::Type type, float relX, float relY);
-	void            spawnEnemies();
-	sf::FloatRect   getViewBounds() const;
-
-private:
-	enum class Layer
-	{
-		Background,
-		PlayerLayer,
-	};
-
-	struct SpawnPoint
-	{
-		SpawnPoint(Actor::Type pType, float pX, float pY)
-			: type(pType)
-			, x(pX)
-			, y(pY)
-		{
-		}
-
-		Actor::Type     type;
-		float x;
-		float y;
-	};
+    void            loadTextures();
+    void            adaptPlayerPosition();
+    void            adaptPlayerVelocity();
+    void            handleCollisions();
+    
+    void            buildScene();
+    void            addEnemies();
+    void            addEnemy(Actor::Type type, float relX, float relY);
+    void            spawnEnemies();
+    sf::FloatRect   getViewBounds() const;
 
 private:
-	sf::RenderWindow&                   mWindow;
-	sf::View                            mWorldView;
-	TextureHolder                       mTextures;
-	FontHolder&                         mFonts;
+    enum class Layer
+    {
+        Background,
+        PlayerLayer,
+    };
 
-	SceneNode                           mSceneGraph;
-	std::map<Layer, SceneNode*>			mSceneLayers;
-	CommandQueue 						mCommandQueue;
+    struct SpawnPoint
+    {
+        SpawnPoint(Actor::Type pType, float pX, float pY)
+            : type(pType)
+            , x(pX)
+            , y(pY)
+        {
+        }
 
-	sf::FloatRect                       mWorldBounds;
-	sf::Vector2f                        mSpawnPosition;
-	float                               mScrollSpeed;
-	Actor*                              mFinishLine;
-	Actor*                              mPlayerCharacter;
-	Actor*                              mArrow;
+        Actor::Type     type;
+        float x;
+        float y;
+    };
 
-	bool 								mWinFlag;
+private:
+    sf::RenderWindow&                   mWindow;
+    sf::View                            mWorldView;
+    TextureHolder                       mTextures;
+    FontHolder&                         mFonts;
 
-	std::vector<SpawnPoint>             mEnemySpawnPoints;
-	std::vector<Actor*>                 mActiveEnemies;
+    SceneNode                           mSceneGraph;
+    std::map<Layer, SceneNode*>            mSceneLayers;
+    CommandQueue                         mCommandQueue;
+
+    sf::FloatRect                       mWorldBounds;
+    sf::Vector2f                        mSpawnPosition;
+    float                               mScrollSpeed;
+    Actor*                              mFinishLine;
+    Actor*                              mPlayerCharacter;
+    Actor*                              mArrow;
+
+    bool                                 mWinFlag;
+
+    std::vector<SpawnPoint>             mEnemySpawnPoints;
+    std::vector<Actor*>                 mActiveEnemies;
 };
 
 #endif // ROOM_HPP

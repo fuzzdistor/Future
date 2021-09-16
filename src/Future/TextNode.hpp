@@ -13,16 +13,16 @@
 class TextNode : public SceneNode
 {
 public:
-	explicit TextNode(const FontHolder& fonts, const std::string& text);
+    explicit TextNode(const FontHolder& fonts, const std::string& text);
 
 public:
-	void			setString(const std::string& string);
+    void            setString(const std::string& string);
 
 private:
-	virtual void 	drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
+    virtual void     drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-	sf::Text 		mText;
+    sf::Text         mText;
 };
 
 #endif // TEXTNODE_HPP

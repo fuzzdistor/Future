@@ -12,51 +12,51 @@ class CommandQueue;
 class Player
 {
 public:
-	enum class ActionID
-	{
-		MoveLeft,
-		MoveRight,
-		MoveUp,
-		MoveDown,
-		//Fire,
-		//LaunchMissile,
-		ToggleDebugMode,
-		//Connect,
-		ActionCount
-	};
+    enum class ActionID
+    {
+        MoveLeft,
+        MoveRight,
+        MoveUp,
+        MoveDown,
+        //Fire,
+        //LaunchMissile,
+        ToggleDebugMode,
+        //Connect,
+        ActionCount
+    };
 
-	enum class MissionStatus
-	{
-		MissionRunning,
-		MissionSuccess,
-		MissionFailure,
-	};
-
-public:
-	Player();
+    enum class MissionStatus
+    {
+        MissionRunning,
+        MissionSuccess,
+        MissionFailure,
+    };
 
 public:
-	void                handleEvent(const sf::Event& event, CommandQueue& commands);
-	void                handleRealTimeInput(CommandQueue& commands);
+    Player();
 
-	void                assignKey(ActionID action, sf::Keyboard::Key key);
-	sf::Keyboard::Key   getAssignedKey(ActionID action) const;
+public:
+    void                handleEvent(const sf::Event& event, CommandQueue& commands);
+    void                handleRealTimeInput(CommandQueue& commands);
 
-	void                setMissionStatus(MissionStatus status);
-	MissionStatus       getMissionStatus() const;
+    void                assignKey(ActionID action, sf::Keyboard::Key key);
+    sf::Keyboard::Key   getAssignedKey(ActionID action) const;
+
+    void                setMissionStatus(MissionStatus status);
+    MissionStatus       getMissionStatus() const;
 
     std::vector<ActionID>& getRegisteredActions();
 
 private:
-	void                initActions();
-	void                initAction(sf::Keyboard::Key key, ActionID actionID, Command::Action action, Category::Type category = Category::Type::PlayerActor);
-	static bool         isRealTimeAction(ActionID action);
+    void                initActions();
+    void                initAction(sf::Keyboard::Key key, ActionID actionID, Command::Action action, Category::Type category = Category::Type::PlayerActor);
+    static bool         isRealTimeAction(ActionID action);
 
 private:
-	MissionStatus 							mCurrentMissionStatus;
+    MissionStatus                             mCurrentMissionStatus;
     std::vector<ActionID>                   mRegisteredActions;
-	std::map<sf::Keyboard::Key, ActionID>   mKeyBinding;
-	std::map<ActionID, Command>             mActionBinding;
+    std::map<sf::Keyboard::Key, ActionID>   mKeyBinding;
+    std::map<ActionID, Command>             mActionBinding;
 };
 
 #endif // PLAYER_HPP

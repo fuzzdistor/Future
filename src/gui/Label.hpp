@@ -12,30 +12,30 @@
 
 namespace sf
 {
-	class Event;
+    class Event;
 }
 
 namespace GUI
 {
 class Label : public Component
-{	
+{    
 public:
-	typedef std::shared_ptr<Label> Ptr;
+    typedef std::shared_ptr<Label> Ptr;
 
 public:
-	Label(const std::string& text, const FontHolder& font);
-	
+    Label(const std::string& text, const FontHolder& font);
+    
 public:
-	virtual bool    isSelectable() const override;
-	void            setText(const std::string& text);
+    virtual bool    isSelectable() const override;
+    void            setText(const std::string& text);
 
-	virtual void    handleEvent(const sf::Event& event) override;
+    virtual void    handleEvent(const sf::Event& event) override;
 
 private:
-	void		    draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void            draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-	sf::Text        mText;
+    sf::Text        mText;
 };
 }
 

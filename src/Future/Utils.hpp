@@ -11,8 +11,8 @@ using json = nlohmann::json;
 
 namespace sf
 {
-	class Sprite;
-	class Text;
+    class Sprite;
+    class Text;
 }
 
 class SpriteNode;
@@ -21,25 +21,25 @@ namespace util
 {
 
 // Convert enumerators to strings
-std::string		toString(sf::Keyboard::Key key);
+std::string        toString(sf::Keyboard::Key key);
 
 json            readDataFromFile(std::string filePath);
 
-void			centerOrigin(SpriteNode& spriteNode);
-void			centerOrigin(sf::Sprite& sprite);
-void			centerOrigin(sf::Text& text);
+void            centerOrigin(SpriteNode& spriteNode);
+void            centerOrigin(sf::Sprite& sprite);
+void            centerOrigin(sf::Text& text);
 
-float			toDegree(float radian);
-float			toRadian(float degree);
+float            toDegree(float radian);
+float            toRadian(float degree);
 
 // Random number generation
 
-int				randomInt(int exclusiveMax);
+int                randomInt(int exclusiveMax);
 
 // Vector operations
 
-float			length(sf::Vector2f vector);
-sf::Vector2f	unitVector(sf::Vector2f vector);
+float            length(sf::Vector2f vector);
+sf::Vector2f    unitVector(sf::Vector2f vector);
 
 }
 

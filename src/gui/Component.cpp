@@ -12,30 +12,30 @@ GUI::Component::~Component()
 
 bool GUI::Component::isSelected() const
 {
-	return mIsSelected;
+    return mIsSelected;
 }
 
 void GUI::Component::select()
 {
-	mIsSelected = true;
+    mIsSelected = true;
 }
 
 void GUI::Component::deselect()
 {
-	mIsSelected = false;
+    mIsSelected = false;
 }
 
 bool GUI::Component::isActive() const
 {
-	return mIsActive;
+    return mIsActive;
 }
 
 void GUI::Component::activate()
 {
-	mIsActive = true;
+    mIsActive = true;
 }
 
 void GUI::Component::deactivate()
 {
-	mIsActive = false;
+    mIsActive = false;
 }

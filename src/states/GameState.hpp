@@ -17,16 +17,16 @@ namespace sf
 class GameState : public State
 {
 public:
-	GameState(StateStack& stack, Context context);
+    GameState(StateStack& stack, Context context);
 
 public:
-	virtual void		draw() override;
-	virtual bool		update(sf::Time dt) override;
-	virtual bool		handleEvent(const sf::Event& event) override;
+    virtual void        draw() override;
+    virtual bool        update(sf::Time dt) override;
+    virtual bool        handleEvent(const sf::Event& event) override;
 
 private:
-	Room        mRoom;
-	Player&     mPlayer;
+    Room        mRoom;
+    Player&     mPlayer;
 };
 
 #endif // GAMESTATE_HPP

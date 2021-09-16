@@ -15,21 +15,21 @@
 
 struct Direction
 {
-	Direction(float angle_, float distance_)
-		: angle(angle_)
-		, distance(distance_)
-	{
-	}
+    Direction(float angle_, float distance_)
+        : angle(angle_)
+        , distance(distance_)
+    {
+    }
 
-	float   angle;
-	float   distance;
+    float   angle;
+    float   distance;
 };
 
 struct ActorData
 {
-	float                       speed;
-	Textures::ID                texture;
-	std::vector<Direction>      directions;
+    float                       speed;
+    Textures::ID                texture;
+    std::vector<Direction>      directions;
 };
 
 std::map<Actor::Type, ActorData>  initActorData();

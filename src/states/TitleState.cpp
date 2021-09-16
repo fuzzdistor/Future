@@ -11,45 +11,45 @@ TitleState::TitleState(StateStack& stack, Context context)
 , mShowText(true)
 , mTextEffectTime(sf::Time::Zero)
 {
-	mBackgroundSprite.setTexture(context.textures->get(Textures::ID::TitleScreen));
+    mBackgroundSprite.setTexture(context.textures->get(Textures::ID::TitleScreen));
 
-	mText.setFont(context.fonts->get(Fonts::ID::Main));
-	mText.setString("Press any key to start");
-	util::centerOrigin(mText);
-	mText.setPosition(sf::Vector2f(context.window->getSize() / 2u));
+    mText.setFont(context.fonts->get(Fonts::ID::Main));
+    mText.setString("Press any key to start");
+    util::centerOrigin(mText);
+    mText.setPosition(sf::Vector2f(context.window->getSize() / 2u));
 }
 
 void TitleState::draw()
 {
-	sf::RenderWindow& window = *getContext().window;
-	window.draw(mBackgroundSprite);
+    sf::RenderWindow& window = *getContext().window;
+    window.draw(mBackgroundSprite);
 
-	if (mShowText)
-		window.draw(mText);
+    if (mShowText)
+        window.draw(mText);
 }
 
 bool TitleState::update(sf::Time dt)
 {
-	mTextEffectTime += dt;
+    mTextEffectTime += dt;
 
-	if (mTextEffectTime >= sf::seconds(0.5f))
-	{
-		mShowText = !mShowText;
-		mTextEffectTime = sf::Time::Zero;
-	}
+    if (mTextEffectTime >= sf::seconds(0.5f))
+    {
+        mShowText = !mShowText;
+        mTextEffectTime = sf::Time::Zero;
+    }
 
-	return true;
+    return true;
 }
 
 bool TitleState::handleEvent(const sf::Event& event)
 {
-	// If any key is pressed, trigger the next screen
-	if (event.type == sf::Event::KeyReleased)
-	{
-		requestStackPop();
-		requestStackPush(States::ID::Game);
-		requestStackPush(States::ID::Menu);
-	}
+    // If any key is pressed, trigger the next screen
+    if (event.type == sf::Event::KeyReleased)
+    {
+        requestStackPop();
+        requestStackPush(States::ID::Game);
+        requestStackPush(States::ID::Menu);
+    }
 
-	return true;
+    return true;
 }

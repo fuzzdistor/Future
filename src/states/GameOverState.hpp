@@ -19,16 +19,16 @@ namespace sf
 class GameOverState : public State
 {
 public:
-	GameOverState(StateStack& stack, Context context);
+    GameOverState(StateStack& stack, Context context);
 
 public:
-	virtual void    draw() override;
-	virtual bool    update(sf::Time dt) override;
+    virtual void    draw() override;
+    virtual bool    update(sf::Time dt) override;
     virtual bool    handleEvent(const sf::Event& event) override;
 
 private:
-	sf::Text            mGameOverText;
-	sf::Time            mElapsedTime;
+    sf::Text            mGameOverText;
+    sf::Time            mElapsedTime;
     sf::RectangleShape  mDarkBackground;
 };
 

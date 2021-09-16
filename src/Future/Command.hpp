@@ -12,22 +12,22 @@ class SceneNode;
 
 struct Command 
 {
-	typedef std::function<void(SceneNode&, sf::Time)> Action;
+    typedef std::function<void(SceneNode&, sf::Time)> Action;
 
-	Command();
+    Command();
 
-	Action          action;
-	Category::Type  category;
+    Action          action;
+    Category::Type  category;
 };
 
 template <typename GameObject, typename Function>
 Command::Action derivedAction(Function fn)
 {
-	return [=] (SceneNode& node, sf::Time dt)
-	{
-		assert(dynamic_cast<GameObject*>(&node) != nullptr); 
-		fn(static_cast<GameObject&>(node), dt);
-	};
+    return [=] (SceneNode& node, sf::Time dt)
+    {
+        assert(dynamic_cast<GameObject*>(&node) != nullptr); 
+        fn(static_cast<GameObject&>(node), dt);
+    };
 }
 
 #endif // COMMAND_HPP

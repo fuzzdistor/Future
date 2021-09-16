@@ -55,58 +55,58 @@ Application::Application()
     , mMousePositionText()
     , mMousePosition()
 {
-	mWindow.setKeyRepeatEnabled(false);
+    mWindow.setKeyRepeatEnabled(false);
  
-	loadInitialResources();
+    loadInitialResources();
 
-	registerStates();
+    registerStates();
 
-	mStatisticsText.setFont(mFonts.get(Fonts::ID::Mono));
-	mStatisticsText.setCharacterSize(10U);
-	mStatisticsText.setPosition(10.f,10.f);
+    mStatisticsText.setFont(mFonts.get(Fonts::ID::Mono));
+    mStatisticsText.setCharacterSize(10U);
+    mStatisticsText.setPosition(10.f,10.f);
 
-	mMousePositionText.setFont(mFonts.get(Fonts::ID::Mono));
-	mMousePositionText.setCharacterSize(10U);
-	mMousePositionText.setPosition(10.f,25.f);
+    mMousePositionText.setFont(mFonts.get(Fonts::ID::Mono));
+    mMousePositionText.setCharacterSize(10U);
+    mMousePositionText.setPosition(10.f,25.f);
 
     mStateStack.pushState(States::ID::Title);
 }
 
 void Application::loadInitialResources()
 {
-	json data = util::readDataFromFile("src/Resources.json");
+    json data = util::readDataFromFile("src/Resources.json");
 
-	// load textures
-	loadResource<Textures::ID>(mTextures, data["Title"]["Textures"]);
+    // load textures
+    loadResource<Textures::ID>(mTextures, data["Title"]["Textures"]);
 
-	// load fonts
-	loadResource<Fonts::ID>(mFonts, data["Title"]["Fonts"]);
+    // load fonts
+    loadResource<Fonts::ID>(mFonts, data["Title"]["Fonts"]);
 }
 
 void Application::run()
 {
-	sf::Clock clock;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
 
-	while (mWindow.isOpen())
-	{
-		sf::Time dt = clock.restart();
-		timeSinceLastUpdate += dt;
+    while (mWindow.isOpen())
+    {
+        sf::Time dt = clock.restart();
+        timeSinceLastUpdate += dt;
 
-		while (timeSinceLastUpdate > TimePerFrame)
-		{
-			timeSinceLastUpdate -= TimePerFrame;
+        while (timeSinceLastUpdate > TimePerFrame)
+        {
+            timeSinceLastUpdate -= TimePerFrame;
 
-			processEvents();
+            processEvents();
             updateMousePositionCoord();
 
             // Only update if window has focus
             if (mWindowHasFocus)
                 update(TimePerFrame);
 
-			// Check inside this loop, because stack might be empty before update() call
-			if (mStateStack.isEmpty())
-				mWindow.close();
+            // Check inside this loop, because stack might be empty before update() call
+            if (mStateStack.isEmpty())
+                mWindow.close();
         }
 
         updateStatistics(dt);
@@ -117,9 +117,9 @@ void Application::run()
 
 void Application::processEvents()
 {
-	sf::Event event;
-	while (mWindow.pollEvent(event))
-	{
+    sf::Event event;
+    while (mWindow.pollEvent(event))
+    {
         // application related event handling
         if (event.type == sf::Event::Closed)
             mWindow.close();
@@ -136,50 +136,50 @@ void Application::processEvents()
 
 void Application::update(sf::Time dt)
 {
-	mStateStack.update(dt);
+    mStateStack.update(dt);
 }
 
 void Application::render()
 {
-	mWindow.clear();
+    mWindow.clear();
 
-	mStateStack.draw();
+    mStateStack.draw();
 
-	mWindow.setView(mWindow.getDefaultView());
+    mWindow.setView(mWindow.getDefaultView());
 
-	mWindow.draw(mStatisticsText);
-	mWindow.draw(mMousePositionText);
+    mWindow.draw(mStatisticsText);
+    mWindow.draw(mMousePositionText);
 
-	mWindow.display();
+    mWindow.display();
 }
 
 void Application::updateStatistics(sf::Time dt)
 {
-	mStatisticsUpdateTime += dt;
-	mStatisticsFrameCount += 1;
-	if (mStatisticsUpdateTime >= sf::seconds(1.0f))
-	{
-		mStatisticsFramesPerSecond = mStatisticsFrameCount;
-		mStatisticsText.setString("FPS: " + std::to_string(mStatisticsFrameCount));
+    mStatisticsUpdateTime += dt;
+    mStatisticsFrameCount += 1;
+    if (mStatisticsUpdateTime >= sf::seconds(1.0f))
+    {
+        mStatisticsFramesPerSecond = mStatisticsFrameCount;
+        mStatisticsText.setString("FPS: " + std::to_string(mStatisticsFrameCount));
 
-		mStatisticsUpdateTime -= sf::seconds(1.0f);
-		mStatisticsFrameCount = 0;
-	}
+        mStatisticsUpdateTime -= sf::seconds(1.0f);
+        mStatisticsFrameCount = 0;
+    }
 } 
 
 void Application::updateMousePositionCoord()
 {
     mMousePosition = sf::Mouse::getPosition(mWindow);
     sf::Vector2f mouseWorldPos = mWindow.getView().getCenter(); //- mWindow.getView().getSize() / 2.f; 
-    mMousePositionText.setString(std::to_string(mouseWorldPos.x) + " X: " + std::to_string(sf::Mouse::getPosition(mWindow).x) + " Y: " + std::to_string(sf::Mouse::getPosition(mWindow).y)); 
+    mMousePositionText.setString(std::to_string(mWindow.getView().getCenter().x) + " X: " + std::to_string(sf::Mouse::getPosition(mWindow).x) + " Y: " + std::to_string(sf::Mouse::getPosition(mWindow).y)); 
 }
 
 void Application::registerStates()
 {
-	mStateStack.registerState<TitleState>(States::ID::Title);
-	mStateStack.registerState<MenuState>(States::ID::Menu);
-	mStateStack.registerState<GameState>(States::ID::Game);
-	mStateStack.registerState<PauseState>(States::ID::Pause);
-	mStateStack.registerState<SettingsState>(States::ID::Settings);
-	mStateStack.registerState<GameOverState>(States::ID::GameOver);
+    mStateStack.registerState<TitleState>(States::ID::Title);
+    mStateStack.registerState<MenuState>(States::ID::Menu);
+    mStateStack.registerState<GameState>(States::ID::Game);
+    mStateStack.registerState<PauseState>(States::ID::Pause);
+    mStateStack.registerState<SettingsState>(States::ID::Settings);
+    mStateStack.registerState<GameOverState>(States::ID::GameOver);
 }
