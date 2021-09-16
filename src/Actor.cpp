@@ -66,6 +66,7 @@ Category::Type Actor::getCategory() const
 // 
 sf::FloatRect Actor::getBoundingRect() const
 {
+    return mSprite->getGlobalBounds();
 	return getWorldTransform().transformRect(mSprite->getGlobalBounds());
 }
 

@@ -1,7 +1,6 @@
 {
   "Room1": {
-    "ExitX" : 200,
-    "ExitY" : 200
+    "Exit": [500, 500]
   },
   "Nanotech": {
     "speed": 200.0,

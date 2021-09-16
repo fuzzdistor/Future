@@ -4,13 +4,15 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 TriggerNode::TriggerNode(Command::Action action)
-	:mAction(action)
+	: mRect({ 40.f, 40.f })
+    , mAction(action)
 {
+    mRect.setFillColor(sf::Color(0u, 255u, 0u, 120u));
 }
 
 sf::FloatRect TriggerNode::getBoundingRect() const
 {
-	return sf::FloatRect(getPosition(), { 40.f,40.f });
+	return sf::FloatRect(getWorldPosition(), mRect.getSize());
 }
 
 void TriggerNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const

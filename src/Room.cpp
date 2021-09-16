@@ -45,13 +45,12 @@ Room::Room(sf::RenderWindow& window, FontHolder& fonts)
 void Room::update(sf::Time dt)
 {
 	// Scroll the world, reset player velocity
-	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());	
 	mPlayerCharacter->setVelocity(0.f, 0.f);
 
 	// Forward commands to scene graph, adapt velocity (scrolling, diagonal correction)
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
-	// daptPlayerVelocity();
+	adaptPlayerVelocity();
 
 	// Collision detection and response (may destroy entities)
 	handleCollisions();
@@ -172,11 +171,8 @@ void Room::buildScene()
 	SceneNode::Ptr layerBG(new SceneNode());
 	mSceneLayers.emplace(std::make_pair(Layer::Background, layerBG.get()));
 	mSceneGraph.attachChild(std::move(layerBG));
-	SceneNode::Ptr layerC(new SceneNode());
-	mSceneLayers.emplace(std::make_pair(Layer::Cables, layerC.get()));
-	mSceneGraph.attachChild(std::move(layerC));
 	SceneNode::Ptr layerPF(new SceneNode(Category::Type::SceneAirLayer));
-	mSceneLayers.emplace(std::make_pair(Layer::Playfield, layerPF.get()));
+	mSceneLayers.emplace(std::make_pair(Layer::PlayerLayer, layerPF.get()));
 	mSceneGraph.attachChild(std::move(layerPF));
 
 
@@ -204,12 +200,12 @@ void Room::buildScene()
 	// Add arrow pointing
 	std::unique_ptr<Actor> arrow(new Actor(Actor::Type::Door, mTextures, mFonts));
 	mArrow = arrow.get();
-	//mArrow->setOrigin(sf::Vector2f(-100.f, mArrow->getOrigin().y));
-	//mArrow->setPosition(0.f,0.f);
+	mArrow->setOrigin(sf::Vector2f(-100.f, mArrow->getOrigin().y));
+	mArrow->setPosition(0.f,0.f);
 
 	player->attachChild(std::move(arrow));
 
-	mSceneLayers[Layer::Playfield]->attachChild(std::move(player));
+	mSceneLayers[Layer::PlayerLayer]->attachChild(std::move(player));
 
 	std::unique_ptr<Actor> door(new Actor(Actor::Type::Door, mTextures, mFonts));
 	mFinishLine = door.get();
@@ -221,10 +217,16 @@ void Room::buildScene()
 
 	std::function<void(SceneNode&, sf::Time)> tAction = [this](SceneNode&, sf::Time) { this->mWinFlag = true; };
 	auto trigger = std::make_unique<TriggerNode>(derivedAction<SceneNode>(tAction));
-	trigger->setPosition(data["Room1"]["ExitX"], data["Room1"]["ExitY"]);
+	trigger->setPosition(40.f, 40.f);
     /* house->attachChild(std::move(trigger)); */
-    mSceneLayers[Layer::Playfield]->attachChild(std::move(trigger));
-
+    house->attachChild(std::move(trigger));
+    
+	std::function<void(SceneNode&, sf::Time)> tAction2 = [this](SceneNode&, sf::Time) {
+        mPlayerCharacter->attachChild(std::make_unique<SpriteNode>(mTextures.get(Textures::ID::Door)));
+        mPlayerCharacter->setPosition(mSpawnPosition); };
+    auto trigger2 = std::make_unique<TriggerNode>(derivedAction<SceneNode>(tAction2));
+    trigger2->setPosition(400.f, 400.f);
+    mSceneLayers[Layer::PlayerLayer]->attachChild(std::move(trigger2));
 }
 
 void Room::addEnemies()
@@ -263,7 +265,7 @@ void Room::spawnEnemies()
 		enemy->setPosition(spawn.x, spawn.y);
 		enemy->setRotation(180.f);
 
-		mSceneLayers[Layer::Playfield]->attachChild(std::move(enemy));
+		mSceneLayers[Layer::PlayerLayer]->attachChild(std::move(enemy));
 
 		// Enemy is spawned, remove from the list to spawn
 		mEnemySpawnPoints.pop_back();

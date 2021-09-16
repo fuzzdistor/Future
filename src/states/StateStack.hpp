@@ -74,7 +74,7 @@ void StateStack::registerState(States::ID stateID)
 {
 	mFactories[stateID] = [this] ()
 	{
-		return State::Ptr(new T(*this, mContext));
+		return State::Ptr(std::make_unique<T>(*this, mContext));
 	};
 }
 

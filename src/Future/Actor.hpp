@@ -6,12 +6,9 @@
 #include "Future/ResourceIdentifiers.hpp"
 #include "Future/SpriteNode.hpp"
 #include "Future/TextNode.hpp"
-#include "Future/json.hpp"
 #include "CommandQueue.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
-
-using json = nlohmann::json;
 
 
 class Actor : public Entity
@@ -36,8 +33,6 @@ public:
 	virtual bool            	isMarkedForRemoval() const override;
 	constexpr bool             	isAllied() const;
 	float                   	getMaxSpeed() const;
-
-	void 						from_json(const json& j, Actor& p);
 
 private:
 	virtual void				drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;

@@ -36,10 +36,10 @@ public:
 	void			draw();
 
     bool            hasAlivePlayer() const;
+    constexpr bool  hasFinishedLevel() const { return mWinFlag; }
 
     constexpr CommandQueue& getCommandQueue() { return mCommandQueue; }
 
-    constexpr bool hasFinishedLevel() const { return mWinFlag; }
 	
 private:
 	void		    loadTextures();
@@ -57,8 +57,7 @@ private:
 	enum class Layer
 	{
 		Background,
-		Playfield,
-		Cables,
+		PlayerLayer,
 	};
 
 	struct SpawnPoint

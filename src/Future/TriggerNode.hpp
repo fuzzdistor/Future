@@ -3,6 +3,7 @@
 
 #include "Future/SceneNode.hpp"
 #include "Future/Command.hpp"
+#include <SFML/Graphics/RectangleShape.hpp>
 
 class TriggerNode: public SceneNode
 {
@@ -15,9 +16,10 @@ public:
 	Command::Action				getAction() const;
 
 private:
-	virtual void 				drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+	virtual void 				drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
+    sf::RectangleShape          mRect;
 	Command::Action 			mAction;
 
 };

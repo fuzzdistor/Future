@@ -103,10 +103,11 @@ void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates stat
 {
 	sf::FloatRect rect = getBoundingRect();
 	
-	// create the bounding shape and give it a green outline
+	// create the bounding shape
 	sf::RectangleShape shape;
 	shape.setPosition(rect.left, rect.top);
 	shape.setSize(sf::Vector2f(rect.width, rect.height));
+    // color it transparent and give it an outline
 	shape.setFillColor(sf::Color::Transparent);
 	shape.setOutlineColor(getBoundingRectColor());
 	shape.setOutlineThickness(1.f);

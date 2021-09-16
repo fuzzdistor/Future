@@ -25,5 +25,5 @@ sf::FloatRect SpriteNode::getBoundingRect() const
 
 sf::FloatRect SpriteNode::getGlobalBounds() const
 {
-    return mSprite.getGlobalBounds();
+    return getTransform().transformRect(mSprite.getGlobalBounds());
 }
